@@ -1,14 +1,13 @@
-A Ruby implementation of the CMAC digest algorithm, based on RFC 4493:
+A Ruby implementation of the CMAC / OMAC1 digest algorithm, based on RFC 4493:
 http://tools.ietf.org/html/rfc4493
-
-It should work with any OpenSSL block cipher, but it's meant for AES-128-CBC.
 
 Here's an example using a test vector from the RFC:
 
 # key is 128 bits
-key = "2b7e151628aed2a6abf7158809cf4f3c".hex_to_raw
+key = ["2b7e151628aed2a6abf7158809cf4f3c"].pack('H*')
+
 cmac = Digest::CMAC.new(OpenSSL::Cipher::Cipher.new('aes-128-cbc'), key)
-cmac.update("6bc1bee22e409f96e93d7e117393172a".hex_to_raw)
+cmac.update(["6bc1bee22e409f96e93d7e117393172a"].pack('H*'))
 digest = cmac.digest
 
 # unpack it into hex
